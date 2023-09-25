@@ -1,0 +1,106 @@
+name: ort-scan
+image: ghcr.io/alliander-opensource/ort-container:latest
+description: Use ORT in your Bitbucket pipelines.
+category: Utilities
+variables:
+  - name: SW_NAME
+    # Name of project, product or component to be scanned.
+    # By default the name of the repository is used as shown in its clone URL.
+    default: 'Mime Types'
+  - name: SW_VERSION
+    # Project version number or release name (use the version from package metadata, not VCS revision).
+    # By default, the Git short SHA is used.
+    default: '2.1.35'
+  - name: VCS_TYPE
+    # Type of version control system.
+    # Accepted values are 'git', 'git-repo', 'mercurial' or 'subversion'.
+    default: 'git'
+  - name: VCS_URL
+    # Repository or clone URL of project to scan.
+    default: 'https://github.com/jshttp/mime-types'
+  - name: VCS_REVISION
+    # SHA1 or tag to scan (do not use branch names as they can move). 
+    # If VCS_TYPE is 'git-repo', SHA1 must be unabbreviated.
+    # Tag names must be prefixed with 'refs/tags/'.
+    default: 'ef932231c20e716ec27ea159c082322c3c485b66'
+  - name: VCS_PATH
+    # Leave this field empty unless one of the following special cases applies:
+    # 1) project VCS_TYPE is git-repo - specify path to repo manifest file
+    # (e.g. sdk.xml, note vcs-url must point to a manifest repository)
+    # 2) you require sparse checkout - specify repository sub-path to download and scan
+    # (e.g. projects/gradle/, note sparse checkout is possible only for VCS_TYPE git, mercurial or subversion)
+    default: ''
+  - name: ADVISORS
+    # Comma-separated list of security vulnerability advisors to use.
+    default: ''
+  - name: ALLOW_DYNAMIC_VERSIONS
+    # Set to 'true' only if dynamic dependency versions are allowed (note version ranges specified for dependencies may cause unstable results).
+    # This field applies only to package managers that support lock files, e.g. NPM.
+    default: 'true'
+  - name: DB_URL
+    # URL for PostgreSQL database to use to cache scan-results and store file archives.
+    default: ''
+  - name: DB_USERNAME
+    # Username for PostgreSQL database to use to cache scan-results and store file archives.
+    default: ''
+  - name: DB_PASSWORD
+    # Username for PostgreSQL database to use to cache scan-results and store file archives.
+    default: ''
+  - name: DB_SCHEMA
+    # Schema for PostgreSQL database to use to cache scan-results and store file archives.
+    default: ''
+  - name: FAIL_ON
+    # Comma-separated list of ORT results that if exceeding their severity threshold will fail the action.
+    # Accepted values are '', 'issues', 'violations' or 'issues,violations'.
+    # If empty, then exceeding severity threshold will not fail the action.
+    default: ''
+  - name: ORT_CLI_ARGS
+    # List of arguments to pass to ORT CLI, applies to all commands.
+    default: ''
+  - name: ORT_CLI_ANALYZE_ARGS
+    # List of arguments to pass to ORT Analyzer CLI.
+    default: ''
+  - name: ORT_CLI_SCAN_ARGS
+    # List of arguments to pass to ORT Scanner CLI.
+    default: ''
+  - name: ORT_CLI_EVALUATE_ARGS
+    # List of arguments to pass to ORT Evaluator CLI.
+    default: ''
+  - name: ORT_CLI_ADVISE_ARGS
+    # List of arguments to pass to ORT Advisor CLI.
+    default: ''
+  - name: ORT_CLI_REPORT_ARGS
+    # List of arguments to pass to ORT Reporter CLI.
+    default: '-O SpdxDocument=output.file.formats=json,yaml'
+  - name: ORT_CONFIG_REPOSITORY
+    # URL to ORT configuration repository to use.
+    default: ''
+  - name: ORT_CONFIG_REVISION
+    # The Git revision of the ORT configuration repository to use.
+    default: ''
+  - name: ORT_DATA_DIR_NAME
+    # Name of ORT directory within user home directory.
+    default: ''
+  - name: ORT_LOG_LEVEL
+    # Set value to 'debug' to see additional debug output to help tracking down errors.
+    default: ''
+  - name: ORT_YML_PATH
+    # Path to file containing the repository configuration.
+    # If set, the '.ort.yml' file from the repository is ignored.
+    default: ''
+  - name: REPORT_FORMATS
+    # Comma-separated list of ORT reporters to run.
+    default: ''
+  - name: RUN
+    # Comma-separated list of optional workflow steps to run.
+    default: 'labels,analyzer,scanner,evaluator,advisor,reporter'
+repository: https://bitbucket.org/tsteenbe/ort-ci-bitbucket
+vendor:
+  name: The ORT Project
+  website: https://oss-review-toolkit.org/
+maintainer:
+  name: The ORT Project
+  website: https://oss-review-toolkit.org/
+tags:
+- OSS Review Toolkit
+- ORT

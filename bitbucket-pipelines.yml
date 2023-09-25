@@ -1,0 +1,10 @@
+image: ghcr.io/alliander-opensource/ort-container:latest
+
+pipelines:
+  default:
+    - step:
+        script:
+        - echo "hello world!"
+        - pipe: tsteenbe/ort-ci-gitlab:main
+          variables:
+            WEBHOOK_URL: $WEBHOOK_UR
